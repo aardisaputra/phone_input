@@ -2,6 +2,7 @@
 Ever wanted to write Chinese characters or Japanese kanji on your PC but found the mouse to be very uncomfortable?
 Worry no more! Using this app, you can use your fingers/smart pen to write on your phone and have the text sent wirelessly to your computer!
 
+This project uses TCP/IP sockets. 
 ## How to use
 There are two main components, the server app and the client app.
 
