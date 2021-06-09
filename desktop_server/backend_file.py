@@ -1,6 +1,7 @@
 import socket
 import threading
-import asyncio
+from PyQt5.QtCore import QUrlQuery
+import pyperclip
 
 PORT = 5050
 SERVER_NAME = socket.gethostname()
@@ -27,21 +28,23 @@ class myServer():
         print(f"[LISTENING] Server is listening on {self.server}")
         while empty:
             conn, addr = self.actual_server.accept()
-            thread = threading.Thread(target=self.handle_client, args=(conn, addr))
+            thread = threading.Thread(target=self.handle_client, args=(conn, addr, queue))
             thread.start()
             print(f"[ACTIVE CONNS] {threading.activeCount() - 1}")
             empty = False
         queue.put(True)
 
-    def handle_client(self, conn, addr):
+    def handle_client(self, conn, addr, queue):
         print(f"[NEW CONNECTION] {addr} connected.")
 
         connected = True
         while connected:
             msg = conn.recv(self.header)
             if msg:
-                print(msg)
+                #print(msg)
                 msg = msg.decode("utf-8")
+                pyperclip.copy(msg)
+                queue.put(msg)
                 if msg == self.disc_msg:
                     connected = False
                 print(f"[{addr}] {msg}")
